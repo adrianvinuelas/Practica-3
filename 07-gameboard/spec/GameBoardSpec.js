@@ -93,4 +93,21 @@ describe("Clase GameBoardSpec", function(){
 		gameBoard.add(objeto3);
 		expect(gameBoard.objects[2]).toEqual(4);
 	});
+	
+	it("RESETREMOVED de gameboard", function(){
+		gameBoard.resetRemoved();
+		expect(gameBoard.removed.length).toEqual(0);
+	});
+
+	it("REMOVE de gameboard", function(){
+		objeto1 = 1;
+		objeto2 = 2;
+		gameBoard.add(objeto1);
+		gameBoard.add(objeto2);
+		gameBoard.resetRemoved();
+		expect(gameBoard.objects.length).toEqual(2);
+		expect(gameBoard.removed.length).toEqual(0);
+		gameBoard.remove(objeto2);
+		expect(gameBoard.removed.length).toEqual(1);
+	});
 });
