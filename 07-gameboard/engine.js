@@ -171,7 +171,7 @@ var GameBoard = function() {
 
     // Añade obj a objects
     this.add = function(obj) { 
-	obj.board=this;  // Para que obj pueda referenciar el tablero
+	obj.board=this;  // Para que obj pueda referenciar el tablero,es decir el objeto tiene un puntero al tablero
 	this.objects.push(obj); 
 	return obj; 
     };
@@ -205,6 +205,7 @@ var GameBoard = function() {
 
     // Iterador que aplica el método funcName a todos los
     // objetos de objects
+    // itera sobre todos los objetos con la funcion que le pases, por ejemplo draw, itera sobre todos los objetos para pintarlos
     this.iterate = function(funcName) {
 	// Convertimos en un array args (1..)
 	var args = Array.prototype.slice.call(arguments,1);
