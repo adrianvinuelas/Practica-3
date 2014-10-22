@@ -110,4 +110,61 @@ describe("Clase GameBoardSpec", function(){
 		gameBoard.remove(objeto2);
 		expect(gameBoard.removed.length).toEqual(1);
 	});
+
+	it("FINALIZEREMOVED de gameboard", function(){
+		objeto1 = 1;
+		objeto2 = 2;
+		gameBoard.add(objeto1);
+		gameBoard.add(objeto2);
+		gameBoard.resetRemoved();
+		gameBoard.remove(objeto1);
+		//gameBoard.remove(objeto2);
+		expect(gameBoard.removed.length).toEqual(1);
+		gameBoard.finalizeRemoved();
+		expect(gameBoard.objects.length).toEqual(1);
+	});
+
+	it("ITERATE de gameBoard", function(){
+		spyOn(ctx, "drawImage");
+		Game = {width: 320, height: 480};
+		SpriteSheet.load (sprites,function(){});
+		var miNave = new PlayerShip();
+		gameBoard.add(miNave);
+		gameBoard.iterate('draw',ctx);
+		expect(ctx.drawImage.calls[0].args[3]).toEqual(37);
+		expect(ctx.drawImage.calls[0].args[4]).toEqual(42);
+	});
+
+	it("DRAW de gameboard", function(){
+		spyOn(ctx, "fillText");
+		var titulo = "titulo";
+		var subtitulo = "subtitulo";
+		var ts1 = new TitleScreen(titulo, subtitulo);
+		gameBoard.add(ts1);
+		gameBoard.draw(ctx);
+		expect(ctx.fillText.calls[0].args[0]).toEqual(titulo);
+  		expect(ctx.fillText.calls[1].args[0]).toEqual(subtitulo);
+	});
+
+	it("STEP de gameboard", function(){
+		SpriteSheet.load (sprites,function(){});
+		// Hacemos que se pulse la tecla left:
+		Game = {width: 320, height: 480, keys: {'left': true}};
+		// Creamos un PlayerShip para testar
+		var miNave = new PlayerShip();
+		gameBoard.add(miNave);
+		gameBoard.step(0.5);// Hacemos como que ha pasado 0.5s
+		expect(gameBoard.objects[0].x).toEqual(41.5);
+	});
+
+	/*it("COLLIDE de gameBoard", function(){
+		SpriteSheet.load({
+		    ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 }
+		}, function() {
+	  	   SpriteSheet.draw(ctx,"ship",0,0);
+	 	   SpriteSheet.draw(ctx,"ship",100,50);
+	 	   SpriteSheet.draw(ctx,"ship",150,100);
+		});
+	});*/
+
 });
