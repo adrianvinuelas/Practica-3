@@ -156,15 +156,35 @@ describe("Clase GameBoardSpec", function(){
 		gameBoard.step(0.5);// Hacemos como que ha pasado 0.5s
 		expect(gameBoard.objects[0].x).toEqual(41.5);
 	});
+	
+	it("OVERLAP de gameboard", function(){
+		SpriteSheet.load (sprites,function(){});
+		Game = {width: 320, height: 480, keys: {'left': true}};
+		var miNave = new PlayerShip();
+		var miNave2 = new PlayerShip();
+		//ship = { sx: 0, sy: 0, w: 37, h: 42, frames: 1 }
+		//ship2 = { sx: 80, sy: 50, w: 37, h: 42, frames: 1 }
+		expect(gameBoard.overlap(miNave,miNave2)).toBe(true);
+		miNave.step(0.5)
+		expect(gameBoard.overlap(miNave,miNave2)).toBe(false);
+	});
 
-	/*it("COLLIDE de gameBoard", function(){
-		SpriteSheet.load({
-		    ship: { sx: 0, sy: 0, w: 37, h: 42, frames: 1 }
-		}, function() {
-	  	   SpriteSheet.draw(ctx,"ship",0,0);
-	 	   SpriteSheet.draw(ctx,"ship",100,50);
-	 	   SpriteSheet.draw(ctx,"ship",150,100);
-		});
-	});*/
+	it("OVERLAP y COLLIDE de gameboard", function(){
+		SpriteSheet.load (sprites,function(){});
+		Game = {width: 320, height: 480, keys: {'left': true}};
+		var miNave = new PlayerShip();
+		var miNave2 = new PlayerShip();
+		miNave.step(1)
+		var miNave3 = new PlayerShip();
+		gameBoard.add(miNave);
+		gameBoard.add(miNave2);
+		//gameBoard.add(miNave3);
+		//ship = { sx: 0, sy: 0, w: 37, h: 42, frames: 1 }
+		//ship2 = { sx: 80, sy: 50, w: 37, h: 42, frames: 1 }
+		//expect(gameBoard.overlap(miNave,miNave2)).toBe(true);
+		//miNave.step(0.5)
+		expect(gameBoard.overlap(miNave,miNave2)).toBe(false);
+		expect(gameBoard.collide(miNave)).toBe(miNave2);
+	});
 
 });
