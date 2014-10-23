@@ -162,8 +162,6 @@ describe("Clase GameBoardSpec", function(){
 		Game = {width: 320, height: 480, keys: {'left': true}};
 		var miNave = new PlayerShip();
 		var miNave2 = new PlayerShip();
-		//ship = { sx: 0, sy: 0, w: 37, h: 42, frames: 1 }
-		//ship2 = { sx: 80, sy: 50, w: 37, h: 42, frames: 1 }
 		expect(gameBoard.overlap(miNave,miNave2)).toBe(true);
 		miNave.step(0.5)
 		expect(gameBoard.overlap(miNave,miNave2)).toBe(false);
@@ -174,17 +172,19 @@ describe("Clase GameBoardSpec", function(){
 		Game = {width: 320, height: 480, keys: {'left': true}};
 		var miNave = new PlayerShip();
 		var miNave2 = new PlayerShip();
-		miNave.step(1)
-		var miNave3 = new PlayerShip();
+		miNave2.step(1)
 		gameBoard.add(miNave);
 		gameBoard.add(miNave2);
-		//gameBoard.add(miNave3);
-		//ship = { sx: 0, sy: 0, w: 37, h: 42, frames: 1 }
-		//ship2 = { sx: 80, sy: 50, w: 37, h: 42, frames: 1 }
-		//expect(gameBoard.overlap(miNave,miNave2)).toBe(true);
-		//miNave.step(0.5)
-		expect(gameBoard.overlap(miNave,miNave2)).toBe(false);
-		expect(gameBoard.collide(miNave)).toBe(miNave2);
+		expect(gameBoard.collide(miNave)).toBe(false);
+	});
+
+	it("DETECT de gameboard", function(){
+		var obj = {}
+		funcion = function(obj){
+			return true;
+		}
+		gameBoard.add(obj);
+		expect(gameBoard.detect(funcion)).toBe(obj);
 	});
 
 });
