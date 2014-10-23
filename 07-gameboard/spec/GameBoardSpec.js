@@ -183,8 +183,12 @@ describe("Clase GameBoardSpec", function(){
 		funcion = function(obj){
 			return true;
 		}
+		funcion2 = function(obj){
+			return false;
+		}
 		gameBoard.add(obj);
 		expect(gameBoard.detect(funcion)).toBe(obj);
+		expect(gameBoard.detect(funcion2)).toBe(false);
 	});
 
 });
