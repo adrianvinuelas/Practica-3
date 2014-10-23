@@ -13,6 +13,9 @@
 
 // Objeto singleton Game: se guarda una unica instancia del
 // constructor anónimo en el objeto Game
+
+var _;
+
 var Game = new function() {                                                                  
 
     // Inicializa el juego
@@ -209,11 +212,13 @@ var GameBoard = function() {
     this.iterate = function(funcName) {
 	// Convertimos en un array args (1..)
 	var args = Array.prototype.slice.call(arguments,1);
+	
+	_(this.objects).each( function(obj) { obj[funcName].apply(obj,args) });
 
-	for(var i=0, len=this.objects.length; i<len;i++) {
+	/*for(var i=0, len=this.objects.length; i<len;i++) {
 	    var obj = this.objects[i];
 	    obj[funcName].apply(obj,args)
-	}
+	}*/
     };
 
     // Devuelve el primer objeto de objects para el que func es true
