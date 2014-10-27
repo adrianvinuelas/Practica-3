@@ -100,6 +100,7 @@ var PlayerShip = function() {
     this.x = Game.width/2 - this.w / 2;
     this.y = Game.height - 10 - this.h;
     this.vx = 0;
+    this.presionado = false;
 
     this.reloadTime = 0.25;  // Un cuarto de segundo para poder volver a disparar
     this.reload = this.reloadTime;
@@ -113,13 +114,25 @@ var PlayerShip = function() {
 
 	this.x += this.vx * dt;
 
-	if(this.x < 0) { this.x = 0; }
-	else if(this.x > Game.width - this.w) { 
+	if(this.x < 0) { this.x = 0; } //para que la nave no pueda salirse del tablero por la izquierda, si sale x =0
+	else if(this.x > Game.width - this.w) { //si sale por la derecha entonces x = finaltablero- dibujo de la nave
 	    this.x = Game.width - this.w 
 	}
 
-	this.reload-=dt;
-	if(Game.keys['fire'] && this.reload < 0) {
+	this.reload-=dt; //tiempo de recarga es igual 0.25 -1(dt=1 por ejemplo) = -0.75(ha pasado el tiempo reload)
+
+	if(!Game.keys['fire']){ this.presionado = false}//si no estoy disparando, presionado = false
+	//si mantengo pulsado, presionado seguira siendo true, y no entrara a crear los misiles	
+   	
+	if(Game.keys['fire'] && !this.presionado && this.reload < 0) {
+	    //No Esta pulsada la tecla de disparo y ya ha pasado el tiempo reload
+	    this.reload = this.reloadTime;
+	    this.presionado = true; // como he disparado presionado = true
+	    // Se añaden al gameboard 2 misiles 
+	    this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
+	    this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
+	}
+	/*if(Game.keys['fire'] && this.reload < 0) {
 	    // Esta pulsada la tecla de disparo y ya ha pasado el tiempo reload
 	    Game.keys['fire'] = false;
 	    this.reload = this.reloadTime;
@@ -127,7 +140,7 @@ var PlayerShip = function() {
 	    // Se añaden al gameboard 2 misiles 
 	    this.board.add(new PlayerMissile(this.x,this.y+this.h/2));
 	    this.board.add(new PlayerMissile(this.x+this.w,this.y+this.h/2));
-	}
+	}*/
     }
 
     this.draw = function(ctx) {
